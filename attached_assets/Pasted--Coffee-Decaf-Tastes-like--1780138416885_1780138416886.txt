@@ -1,0 +1,20 @@
+| Coffee                                                | Decaf? | Tastes like                                        |
+| ----------------------------------------------------- | ------ | -------------------------------------------------- |
+| Tanzania Tarime Natural Nº 343                        | No     | Raspberry jam, vanilla, shortbread ravecoffee      |
+| Ethiopia Aricha Adorsi Nº 346                         | No     | Molasses, candied lemon, cocoa ravecoffee          |
+| #0004 Sebastián Ramírez Pink Bourbon Session IPA 150g | No     | Mango, hops, candied lime ravecoffee               |
+| Colombia El Carmen Nº 50                              | No     | Caramel, chocolate, red fruits ravecoffee          |
+| Colombia El Carmen Sugarcane Decaf Nº 77              | Yes    | Chocolate, vanilla, red fruits ravecoffee          |
+| Indian Monsoon Malabar Coffee Nº 53                   | No     | Chocolate, cedar, smoky ravecoffee                 |
+| Guatemala Bosques de San Francisco Nº 52              | No     | Milk chocolate, red apple, toffee ravecoffee       |
+| Brazil Guima Estate Nº 303                            | No     | Brown sugar, chocolate, biscuit ravecoffee         |
+| Rwanda Kirunga Lot 6 Nº 345                           | No     | Strawberry, red liquorice, mandarin ravecoffee     |
+| Peru Arcelia Neyra Nº 359                             | No     | Blood orange, nectarine, cola ravecoffee           |
+| Peru Amigos del Oso Nº 350                            | No     | Caramel, nutmeg, dark chocolate ravecoffee         |
+| Mexico Café El Zapoteco Nº 342                        | No     | Milk chocolate, pecan, glace cherry ravecoffee     |
+| Guatemala Sugarcane Decaf Nº 339                      | Yes    | Muscovado sugar, baked plum, hazelnut ravecoffee   |
+| Peru Churupampa Nº 341                                | No     | Hazelnut, butter candy, milk chocolate ravecoffee  |
+| Brazil Sertãozinho Lot 574 Nº 319                     | No     | Chocolate digestive, hazelnut, molasses ravecoffee |
+| Rwanda Vunga Nº 329                                   | No     | Pomegranate, brown sugar, chocolate ravecoffee     |
+| Costa Rica Monte Alto Venecia Nº 348                  | No     | Turkish delight, sweet vermouth, lychee ravecoffee |
+| Burundi Izuba Nº 334                                  | No     | Black cherry, dark chocolate, liquorice ravecoffee |

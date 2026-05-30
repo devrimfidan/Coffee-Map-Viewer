@@ -348,5 +348,19 @@
     "signature_origins": ["Colombia", "Ethiopia", "Panama"],
     "notable_coffees": ["Southern Weather", "Geometry"],
     "description": "Known for their edgy branding, extreme pricing transparency, and dominance in US coffee competitions."
+  },
+  {
+    "id": "rave-coffee",
+    "name": "Rave Coffee",
+    "city": "Cirencester",
+    "country": "UK",
+    "lat": 51.7218,
+    "lng": -1.9699,
+    "founded": 2012,
+    "website": "https://ravecoffee.co.uk",
+    "sourcing": "Ethically sourced single origins, direct relationships with farmers and cooperatives worldwide",
+    "signature_origins": ["Ethiopia", "Colombia", "Tanzania", "Rwanda", "Peru", "Guatemala", "Brazil", "Costa Rica", "Burundi", "India", "Mexico"],
+    "notable_coffees": ["Ethiopia Aricha Adorsi Nº 346", "Tanzania Tarime Natural Nº 343", "Rwanda Kirunga Lot 6 Nº 345", "Costa Rica Monte Alto Venecia Nº 348", "Sebastián Ramírez Pink Bourbon Session IPA"],
+    "description": "Founded in 2012 in the Cotswolds market town of Cirencester, Rave Coffee has become one of the UK's most respected specialty roasters. Their numbered single origin series spans the globe — from natural Tanzanian lots bursting with raspberry jam to experimental anaerobic Colombians fermented with hops. Meticulous sourcing, transparent pricing, and a devoted community of subscribers make them a standout in British specialty coffee."
   }
 ]
