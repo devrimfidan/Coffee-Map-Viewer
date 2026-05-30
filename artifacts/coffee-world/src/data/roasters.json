@@ -78,10 +78,10 @@
     "lng": -0.07,
     "founded": 2008,
     "website": "https://shop.squaremilecoffee.com/",
-    "sourcing": "High quality seasonal sourcing",
-    "signature_origins": ["Ethiopia", "Colombia", "Guatemala"],
-    "notable_coffees": ["Sweet Shop Espresso", "Red Brick"],
-    "description": "Co-founded by James Hoffmann, Square Mile is a driving force in London's specialty coffee scene."
+    "sourcing": "Seasonal direct and relationship sourcing, focusing on traceability and quality lots",
+    "signature_origins": ["Brazil", "Colombia", "Burundi", "Peru", "Guatemala", "Kenya", "Uganda", "Costa Rica"],
+    "notable_coffees": ["Red Brick", "Zarza", "Mikuba", "Gitwe Hill", "Ayacucho", "Baixadão", "The Filter Blend", "Sweetshop"],
+    "description": "Co-founded by James Hoffmann, Square Mile is one of the most influential specialty roasters in the world. Based in East London since 2008, they've shaped the vocabulary of third-wave coffee with meticulously sourced seasonal lots, transparent tasting notes, and a commitment to education. Their numbered collection spans espresso blends, washed single origins, and experimental naturals across three continents."
   },
   {
     "id": "has-bean",
