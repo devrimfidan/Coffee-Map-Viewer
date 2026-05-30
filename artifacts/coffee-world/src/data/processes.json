@@ -1,0 +1,42 @@
+[
+  {
+    "id": "washed",
+    "name": "Washed / Wet Process",
+    "description": "The cherry is completely removed from the seed before drying. This method highlights the intrinsic qualities of the bean (the terroir and variety) rather than the fruit surrounding it.",
+    "steps": ["Harvest cherries", "Pulping (removing outer skin)", "Fermentation in water tanks (12-72 hrs) to remove mucilage", "Washing channels", "Drying on raised beds or patios"],
+    "flavor_impact": "Clean, bright, high acidity, articulate. The terroir and variety shine through with minimal fruit influence.",
+    "common_in": ["Colombia", "Kenya", "Guatemala", "Ethiopia"]
+  },
+  {
+    "id": "natural",
+    "name": "Natural / Dry Process",
+    "description": "The oldest method. The coffee cherry is dried whole, intact with the seed inside. The seed absorbs sugars and fruit flavors from the cherry as it dries.",
+    "steps": ["Harvest cherries", "Sorting and floating", "Drying whole cherries on raised beds (2-4 weeks)", "Hulling (removing the dried pod)"],
+    "flavor_impact": "Heavy body, intensely sweet, prominent fruit notes (often berry or jam), lower perceived acidity.",
+    "common_in": ["Ethiopia", "Brazil", "Yemen"]
+  },
+  {
+    "id": "honey",
+    "name": "Honey / Pulped Natural",
+    "description": "The skin is removed, but some amount of the sticky, sugary mucilage (the 'honey') is left on the bean while it dries.",
+    "steps": ["Harvest cherries", "Pulping (removing skin only)", "Drying with mucilage intact", "Hulling"],
+    "flavor_impact": "A middle ground. Sweeter and heavier body than washed, but cleaner with more acidity than naturals.",
+    "common_in": ["Costa Rica", "El Salvador", "Brazil"]
+  },
+  {
+    "id": "anaerobic",
+    "name": "Anaerobic Fermentation",
+    "description": "A modern, experimental method where coffee is fermented in a completely oxygen-free environment (sealed tanks), allowing different microbes to dominate the fermentation.",
+    "steps": ["Harvest cherries", "Place in sealed tanks", "Evacuate oxygen (often flushing with CO2)", "Ferment (often temperature controlled)", "Drying"],
+    "flavor_impact": "Wildly unique, often yielding unexpected notes like cinnamon, bubblegum, lactic acidity (yogurt), or boozy/winey flavors.",
+    "common_in": ["Colombia", "Panama", "Costa Rica"]
+  },
+  {
+    "id": "wet-hulled",
+    "name": "Wet-Hulled / Giling Basah",
+    "description": "Unique to Indonesia. The parchment shell is removed while the bean is still at a very high moisture content (25-50%), exposing the soft bean to the elements as it finishes drying.",
+    "steps": ["Harvest and pulp", "Brief fermentation", "Partial drying", "Hulling while wet", "Final drying of naked beans"],
+    "flavor_impact": "Dramatically reduces acidity, increases body immensely, and imparts distinctive earthy, woody, savory, or spicy notes.",
+    "common_in": ["Indonesia (Sumatra, Java)"]
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "arabica",
+    "name": "Arabica (Coffea arabica)",
+    "origin": "Ethiopia",
+    "characteristics": "Complex acidity, sweetness, varied flavor profiles",
+    "flavor_profile": { "acidity": 8, "body": 6, "sweetness": 8, "fruity": 7, "earthy": 2, "roasted": 3 },
+    "description": "The most widely consumed and highly regarded coffee species. Grown at higher altitudes, it offers a refined, sweet, and complex cup compared to Robusta.",
+    "notable_origins": ["Ethiopia", "Colombia", "Guatemala"]
+  },
+  {
+    "id": "robusta",
+    "name": "Robusta (Coffea canephora)",
+    "origin": "Uganda",
+    "characteristics": "High caffeine, heavy body, low acidity, earthy",
+    "flavor_profile": { "acidity": 2, "body": 10, "sweetness": 3, "fruity": 1, "earthy": 9, "roasted": 8 },
+    "description": "Hardier and more disease-resistant than Arabica. Grown at lower altitudes, it yields a harsher, more bitter cup with roughly double the caffeine, often used in espresso blends for crema.",
+    "notable_origins": ["Vietnam", "Uganda", "India"]
+  },
+  {
+    "id": "gesha",
+    "name": "Gesha / Geisha",
+    "origin": "Ethiopia (Gori Gesha forest)",
+    "characteristics": "Intensely floral, bergamot, jasmine, tropical fruit",
+    "flavor_profile": { "acidity": 9, "body": 4, "sweetness": 8, "fruity": 10, "earthy": 1, "roasted": 1 },
+    "description": "Originally from the Gori Gesha forest in Ethiopia, Gesha was planted in Panama in the 1960s and became world-famous after Hacienda La Esmeralda's 2004 auction. Extremely delicate and low-yielding, it produces a cup unlike any other coffee.",
+    "notable_origins": ["Ethiopia", "Panama", "Colombia"]
+  },
+  {
+    "id": "bourbon",
+    "name": "Bourbon",
+    "origin": "Yemen / Reunion Island",
+    "characteristics": "Sweet, complex, buttery, crisp acidity",
+    "flavor_profile": { "acidity": 8, "body": 7, "sweetness": 9, "fruity": 6, "earthy": 2, "roasted": 3 },
+    "description": "A natural mutation of Typica. The French planted it on Bourbon Island (now Reunion) in the 1700s. Known for its exceptional sweetness and complex, balanced profile. Exists in Red, Yellow, and Pink mutations.",
+    "notable_origins": ["Rwanda", "El Salvador", "Guatemala"]
+  },
+  {
+    "id": "typica",
+    "name": "Typica",
+    "origin": "Yemen",
+    "characteristics": "Clean, sweet, floral, relatively low yield",
+    "flavor_profile": { "acidity": 7, "body": 6, "sweetness": 8, "fruity": 6, "earthy": 2, "roasted": 3 },
+    "description": "The base variety from which many others mutated. Taken from Yemen to Java by the Dutch, then to the Americas. Produces a very high quality, clean cup but suffers from low yields.",
+    "notable_origins": ["Jamaica", "Mexico", "Peru"]
+  },
+  {
+    "id": "sl28",
+    "name": "SL28",
+    "origin": "Kenya (Scott Laboratories)",
+    "characteristics": "Intense blackcurrant, juicy acidity, syrupy body",
+    "flavor_profile": { "acidity": 10, "body": 8, "sweetness": 8, "fruity": 9, "earthy": 1, "roasted": 2 },
+    "description": "Selected by Scott Laboratories in Kenya in the 1930s from a drought-resistant variety from Tanzania. It is responsible for the iconic, intensely fruity and acidic profile of Kenyan coffees.",
+    "notable_origins": ["Kenya"]
+  },
+  {
+    "id": "caturra",
+    "name": "Caturra",
+    "origin": "Brazil",
+    "characteristics": "Bright acidity, medium body, clean",
+    "flavor_profile": { "acidity": 8, "body": 6, "sweetness": 7, "fruity": 5, "earthy": 2, "roasted": 4 },
+    "description": "A natural, dwarf mutation of Bourbon discovered in Brazil in 1937. Its short stature makes it easier to harvest and allows for denser planting. Very common across Central and South America.",
+    "notable_origins": ["Colombia", "Costa Rica", "Nicaragua"]
+  },
+  {
+    "id": "pacamara",
+    "name": "Pacamara",
+    "origin": "El Salvador",
+    "characteristics": "Complex, savory, floral, heavy body",
+    "flavor_profile": { "acidity": 8, "body": 9, "sweetness": 7, "fruity": 7, "earthy": 4, "roasted": 3 },
+    "description": "A hybrid of Pacas (a Bourbon mutation) and Maragogype (an enormous Typica mutation) created in El Salvador. Known for its massive bean size and wildly complex, sometimes savory or herbal flavor profile.",
+    "notable_origins": ["El Salvador", "Guatemala"]
+  },
+  {
+    "id": "heirloom",
+    "name": "Ethiopian Heirloom",
+    "origin": "Ethiopia",
+    "characteristics": "Wildly diverse, floral, fruity, tea-like",
+    "flavor_profile": { "acidity": 9, "body": 5, "sweetness": 8, "fruity": 9, "earthy": 2, "roasted": 2 },
+    "description": "A catch-all term for the thousands of undocumented coffee varieties growing wild or in small gardens in Ethiopia. This incredible genetic diversity is why Ethiopian coffees possess such uniquely complex flavors.",
+    "notable_origins": ["Ethiopia"]
+  }
+]

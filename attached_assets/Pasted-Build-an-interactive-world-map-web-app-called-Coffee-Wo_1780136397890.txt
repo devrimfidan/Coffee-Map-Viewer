@@ -1,0 +1,259 @@
+Build an interactive world map web app called **Coffee World** — an exploratory reference tool that visualizes the global coffee landscape. Users can explore coffee-growing regions, individual farms, coffee varieties, processing styles, and roasters on a single interactive map. Think of it as a living atlas of coffee.
+
+---
+
+## TECH STACK
+
+- **Frontend:** React + Vite
+- **Map:** Leaflet.js with OpenStreetMap tiles (no API key needed) + react-leaflet
+- **Styling:** Tailwind CSS
+- **Data:** JSON files (served as static data, no database needed for v1)
+- **Charts:** Recharts (for flavor radar charts and stats inside info panels)
+- **Icons:** Lucide React
+
+---
+
+## VISUAL DESIGN
+
+- **Background / map style:** Use a muted, sepia-toned map tile (Stamen Toner Lite or CartoDB Positron). The map should feel warm and editorial, not like Google Maps.
+- **Color palette:**
+  - App shell background: `#1E1E1E` (dark, like a specialty coffee menu board)
+  - Sidebar/panel background: `#2A2A2A`
+  - Primary accent: `#C8A96E` (warm gold — for highlights, active states, selected items)
+  - Green accent: `#00704A` (for growing region overlays)
+  - Text: `#F5F0E8` (warm off-white)
+  - Secondary text: `#A89880`
+- **Overall feel:** Dark, warm, sophisticated — like the interior of a specialty roastery
+
+---
+
+## MAP LAYERS
+
+The map should support multiple toggleable layers. Each layer can be turned on/off independently via a layer control panel.
+
+### Layer 1 — Coffee Belt
+Draw a semi-transparent green band between the Tropic of Cancer (23.5°N) and Tropic of Capricorn (23.5°S) across the full map width. Label it "The Coffee Belt". Opacity 15%, fill `#00704A`. This is always visible and cannot be toggled off.
+
+### Layer 2 — Growing Regions (countries)
+Highlight coffee-producing countries with a semi-transparent gold overlay on their borders. On hover, the country brightens and shows a tooltip with: country name, total annual production (bags), primary varieties, and dominant processing method.
+
+Include these countries with data:
+- **Africa:** Ethiopia, Kenya, Tanzania, Rwanda, Burundi, Uganda, Cameroon, Congo, Yemen
+- **Central America:** Guatemala, Honduras, Costa Rica, El Salvador, Nicaragua, Panama, Mexico
+- **South America:** Colombia, Brazil, Peru, Bolivia, Ecuador
+- **Asia/Pacific:** Indonesia, Vietnam, Papua New Guinea, India, Myanmar, Philippines
+
+### Layer 3 — Farms
+Individual pin markers for notable coffee farms/estates. Each pin is a small coffee bean SVG icon in gold. Clicking a farm pin opens a detail panel (see Panel section below).
+
+Include ~30 real notable farms as seed data, for example:
+- Hacienda La Esmeralda (Panama, Boquete) — Gesha variety
+- Finca El Injerto (Guatemala, Huehuetenango)
+- Yirgacheffe Cooperative farms (Ethiopia, Yirgacheffe)
+- Kieni Factory (Kenya, Nyeri)
+- Finca Hartmann (Panama)
+- Dota Cooperative (Costa Rica)
+- La Palma y El Tucán (Colombia, Cundinamarca)
+- Fazenda Santa Inês (Brazil, Minas Gerais)
+- Aida Batlle farms (El Salvador)
+- Beloya Station (Ethiopia, Sidama)
+
+### Layer 4 — Roasters
+Pin markers for notable specialty roasters worldwide. Each pin is a small roaster machine SVG icon in a dark green circle. Clicking opens a roaster detail panel.
+
+Include ~25 real notable roasters, for example:
+- Stumptown Coffee (Portland, USA)
+- Intelligentsia (Chicago, USA)
+- Blue Bottle Coffee (Oakland, USA)
+- Counter Culture Coffee (Durham, USA)
+- George Howell Coffee (Boston, USA)
+- Square Mile Coffee (London, UK)
+- Has Bean Coffee (Stafford, UK)
+- The Barn (Berlin, Germany)
+- Five Elephant (Berlin, Germany)
+- Koppi (Helsingborg, Sweden)
+- Tim Wendelboe (Oslo, Norway)
+- Fuglen (Oslo, Norway)
+- Onibus Coffee (Tokyo, Japan)
+- Streamer Coffee (Tokyo, Japan)
+- Proud Mary (Melbourne, Australia)
+- Sample Coffee (Sydney, Australia)
+- Color Roasters (Istanbul, Turkey)
+- Lot Forty One (Istanbul, Turkey)
+
+### Layer 5 — Trade Routes (optional toggle)
+Draw curved animated lines from major growing regions to major consuming regions (USA, Europe, Japan). Lines are thin, dashed, gold color, with a slow travel animation. Label key route endpoints. This is a visual/educational layer.
+
+---
+
+## LEFT SIDEBAR — FILTER & LAYER PANEL
+
+Fixed left sidebar (~280px wide) with sections:
+
+### Layers toggle
+Checkbox list to show/hide each layer:
+- [x] Coffee Belt
+- [x] Growing Regions
+- [x] Farms
+- [x] Roasters
+- [ ] Trade Routes
+
+### Filters
+Apply filters that update which pins are visible on the map:
+
+**By Variety:**
+Multi-select chips: Arabica, Robusta, Liberica, Gesha/Geisha, Bourbon, Typica, SL28, Caturra, Catuai, Pacamara, Heirloom
+
+**By Process:**
+Multi-select chips: Washed, Natural, Honey, Anaerobic, Wet-Hulled
+
+**By Flavor Profile:**
+Multi-select chips (from SCA flavor wheel categories): Fruity, Floral, Sweet, Nutty/Cocoa, Spices, Roasted, Earthy
+
+**By Altitude:**
+Range slider: 0–3000 masl
+
+**By Region:**
+Dropdown: All Regions | Africa | Central America | South America | Asia/Pacific | Caribbean
+
+### Search
+Search bar at the top of the sidebar. Searches across all farms, roasters, coffees, and countries simultaneously. Results appear as a list below the search bar; clicking a result flies the map to that location and opens its detail panel.
+
+---
+
+## RIGHT PANEL — DETAIL PANELS
+
+When a user clicks a pin or country, a slide-in panel appears on the right side (~380px wide). The map shifts left to accommodate it. An X button closes it.
+
+### Country Panel
+- Country name (large) + flag emoji
+- Region badge (e.g. "Central America")
+- Hero stat row: Annual Production | Harvest Season | Altitude Range
+- **Top Varieties** — horizontal chip list with variety names
+- **Processing Methods** — chip list
+- **Flavor Profile** — a radar chart (Recharts) showing typical cup profile across: Acidity, Body, Sweetness, Fruity, Earthy, Roasted axes
+- **Key Growing Regions** — list of notable sub-regions within the country (e.g. for Ethiopia: Yirgacheffe, Sidama, Guji, Harrar, Limu)
+- **Notable Farms** — list of farm names with a "View on map" link each
+- **Fun fact** — one short interesting fact about this country's coffee history
+
+### Farm Panel
+- Farm name (large) + country/region
+- Altitude (masl)
+- Owner/producer name
+- **Varieties grown** — chips
+- **Processing methods used** — chips
+- **Flavor profile radar chart** — same axes as above
+- **Tasting notes** — 2–3 sentences of description
+- **Awards/recognition** — if applicable (e.g. "Best of Panama competition winner")
+- Small static map thumbnail showing the farm's exact location (just a zoomed Leaflet mini-map)
+
+### Roaster Panel
+- Roaster name + city, country
+- Founded year
+- Website link
+- **Sourcing approach** — short text (e.g. "direct trade", "relationship sourcing")
+- **Signature origins** — chips showing countries they frequently source from, each chip links to that country panel
+- **Notable coffees** — 2–3 of their well-known coffees listed
+- Brief description paragraph
+
+---
+
+## TOP BAR
+
+Fixed top navigation bar across full width:
+- Left: Coffee World logo (coffee bean SVG + "Coffee World" text in gold)
+- Center: mode switcher tabs — **Map** | **Encyclopedia** | **Compare**
+- Right: search icon (opens sidebar search on mobile)
+
+---
+
+## ENCYCLOPEDIA MODE (`/encyclopedia`)
+
+A non-map page. Grid of cards organized into sections:
+
+### Varieties
+Cards for each major variety: Arabica, Robusta, Gesha, Bourbon, Typica, SL28, Caturra, Pacamara, Heirloom. Each card has an illustration placeholder, name, origin, flavor characteristics, and a brief description.
+
+### Processing Methods
+Cards for: Washed, Natural, Honey (Yellow/Red/Black), Anaerobic, Wet-Hulled. Each card explains the process step by step with a simple SVG flow diagram and flavor impact.
+
+### Flavor Profiles
+An interactive SCA flavor wheel rendered as an SVG. Clicking a flavor category expands it to show subcategories. Hovering a flavor shows which origins/varieties commonly exhibit that flavor.
+
+### Altitude Guide
+A visual vertical bar showing altitude ranges and how they affect flavor:
+- 0–600m: mild, low acidity
+- 600–1200m: balanced, medium body
+- 1200–1800m: complex, bright acidity
+- 1800m+: intense, floral, highly complex
+
+---
+
+## COMPARE MODE (`/compare`)
+
+Side-by-side comparison tool. Two dropdown selectors at the top — each lets you pick a country, farm, or variety. Below, show a comparison table and overlaid radar charts.
+
+Compare metrics: Altitude, Acidity, Body, Sweetness, typical price tier, harvest season, processing methods available.
+
+---
+
+## DATA STRUCTURE
+
+Use JSON files in a `/data` directory:
+
+**`/data/countries.json`** — array of country objects:
+```json
+{
+  "id": "ethiopia",
+  "name": "Ethiopia",
+  "lat": 9.145,
+  "lng": 40.489,
+  "region": "Africa",
+  "production_bags": 7500000,
+  "harvest_season": "Oct–Feb",
+  "altitude_range": "1500–2200 masl",
+  "varieties": ["Heirloom", "74110", "74112"],
+  "processes": ["Washed", "Natural"],
+  "flavor_profile": { "acidity": 8, "body": 6, "sweetness": 7, "fruity": 9, "earthy": 4, "roasted": 3 },
+  "sub_regions": ["Yirgacheffe", "Sidama", "Guji", "Harrar", "Limu"],
+  "fun_fact": "Ethiopia is the birthplace of coffee — legend has it that a goat herder named Kaldi first discovered coffee's energizing effects around 850 AD."
+}
+```
+
+**`/data/farms.json`** — array of farm objects with lat/lng, varieties, processes, flavor_profile, description, altitude, owner.
+
+**`/data/roasters.json`** — array of roaster objects with lat/lng, city, country, founded, sourcing approach, signature origins, notable coffees, description.
+
+**`/data/varieties.json`** — variety details for Encyclopedia mode.
+
+**`/data/processes.json`** — processing method details for Encyclopedia mode.
+
+---
+
+## INTERACTIONS & UX
+
+- Map starts zoomed out to show the full coffee belt (zoom level 3, centered on ~10°N, 20°E)
+- Smooth fly-to animation when navigating to a pin or search result
+- Cluster nearby pins when zoomed out (use Leaflet.markercluster) — at zoom level 3–5, show cluster bubbles with count; individual pins appear at zoom 6+
+- On mobile: sidebar collapses to a bottom drawer; detail panel slides up from bottom
+- All panels have smooth slide-in animations (300ms ease)
+- "Back to overview" button in detail panels flies the map back to the default view
+- The filter panel updates the map in real time as filters change — pins that don't match the filter fade out (opacity 0.2) rather than disappearing entirely, so the user understands the full dataset
+
+---
+
+## WHAT TO BUILD FIRST (priority order)
+
+1. Map shell with dark UI, Coffee Belt overlay, and OpenStreetMap tiles
+2. Country overlays with hover tooltips
+3. Farm pins with click-to-open detail panels
+4. Roaster pins with click-to-open detail panels
+5. Left sidebar with layer toggles and filters
+6. Search functionality
+7. Encyclopedia mode
+8. Compare mode
+9. Trade routes animated layer
+
+---
+
+This is the full spec. Build the complete app with all data seeded, all layers working, and the dark editorial design system described above.
