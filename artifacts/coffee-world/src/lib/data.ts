@@ -3,6 +3,7 @@ import farmsData from "../data/farms.json";
 import roastersData from "../data/roasters.json";
 import varietiesData from "../data/varieties.json";
 import processesData from "../data/processes.json";
+import regionsData from "../data/regions.json";
 
 export interface FlavorProfile {
   acidity: number;
@@ -81,8 +82,18 @@ export interface Process {
   common_in: string[];
 }
 
+export interface Region {
+  id: string;
+  name: string;
+  country_id: string;
+  lat: number;
+  lng: number;
+  radius_km: number;
+}
+
 export const getCountries = (): Country[] => countriesData as Country[];
 export const getFarms = (): Farm[] => farmsData as Farm[];
 export const getRoasters = (): Roaster[] => roastersData as Roaster[];
 export const getVarieties = (): Variety[] => varietiesData as Variety[];
 export const getProcesses = (): Process[] => processesData as Process[];
+export const getRegions = (): Region[] => regionsData as Region[];

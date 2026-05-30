@@ -1,0 +1,112 @@
+[
+  { "id": "eth-yirgacheffe",   "name": "Yirgacheffe",         "country_id": "ethiopia",       "lat": 6.15,   "lng": 38.20,   "radius_km": 38 },
+  { "id": "eth-sidama",        "name": "Sidama",               "country_id": "ethiopia",       "lat": 6.80,   "lng": 38.45,   "radius_km": 48 },
+  { "id": "eth-guji",          "name": "Guji",                 "country_id": "ethiopia",       "lat": 5.70,   "lng": 38.45,   "radius_km": 44 },
+  { "id": "eth-harrar",        "name": "Harrar",               "country_id": "ethiopia",       "lat": 9.30,   "lng": 42.12,   "radius_km": 55 },
+  { "id": "eth-limu",          "name": "Limu",                 "country_id": "ethiopia",       "lat": 8.15,   "lng": 36.90,   "radius_km": 48 },
+  { "id": "eth-gimbi",         "name": "Gimbi / Wollega",      "country_id": "ethiopia",       "lat": 9.17,   "lng": 36.55,   "radius_km": 50 },
+
+  { "id": "ken-nyeri",         "name": "Nyeri",                "country_id": "kenya",          "lat": -0.42,  "lng": 36.95,   "radius_km": 32 },
+  { "id": "ken-kirinyaga",     "name": "Kirinyaga",            "country_id": "kenya",          "lat": -0.65,  "lng": 37.28,   "radius_km": 28 },
+  { "id": "ken-murangaa",      "name": "Murang'a",             "country_id": "kenya",          "lat": -0.73,  "lng": 37.15,   "radius_km": 30 },
+  { "id": "ken-embu",          "name": "Embu",                 "country_id": "kenya",          "lat": -0.53,  "lng": 37.45,   "radius_km": 28 },
+  { "id": "ken-kiambu",        "name": "Kiambu",               "country_id": "kenya",          "lat": -1.17,  "lng": 36.83,   "radius_km": 28 },
+  { "id": "ken-bungoma",       "name": "Bungoma",              "country_id": "kenya",          "lat": 0.56,   "lng": 34.56,   "radius_km": 28 },
+
+  { "id": "tan-kilimanjaro",   "name": "Kilimanjaro",          "country_id": "tanzania",       "lat": -3.07,  "lng": 37.35,   "radius_km": 38 },
+  { "id": "tan-arusha",        "name": "Arusha",               "country_id": "tanzania",       "lat": -3.37,  "lng": 36.68,   "radius_km": 32 },
+  { "id": "tan-mbeya",         "name": "Mbeya",                "country_id": "tanzania",       "lat": -8.90,  "lng": 33.46,   "radius_km": 48 },
+  { "id": "tan-ruvuma",        "name": "Ruvuma",               "country_id": "tanzania",       "lat": -10.80, "lng": 35.70,   "radius_km": 55 },
+  { "id": "tan-tarime",        "name": "Tarime",               "country_id": "tanzania",       "lat": 1.35,   "lng": 34.18,   "radius_km": 32 },
+
+  { "id": "rwa-nyamasheke",    "name": "Nyamasheke",           "country_id": "rwanda",         "lat": -2.27,  "lng": 29.09,   "radius_km": 28 },
+  { "id": "rwa-nyamagabe",     "name": "Nyamagabe",            "country_id": "rwanda",         "lat": -2.45,  "lng": 29.49,   "radius_km": 24 },
+  { "id": "rwa-huye",          "name": "Huye",                 "country_id": "rwanda",         "lat": -2.60,  "lng": 29.74,   "radius_km": 22 },
+  { "id": "rwa-rulindo",       "name": "Rulindo",              "country_id": "rwanda",         "lat": -1.72,  "lng": 30.02,   "radius_km": 22 },
+
+  { "id": "bur-kayanza",       "name": "Kayanza",              "country_id": "burundi",        "lat": -3.02,  "lng": 29.62,   "radius_km": 28 },
+  { "id": "bur-ngozi",         "name": "Ngozi",                "country_id": "burundi",        "lat": -2.91,  "lng": 29.83,   "radius_km": 24 },
+  { "id": "bur-gitega",        "name": "Gitega",               "country_id": "burundi",        "lat": -3.43,  "lng": 29.93,   "radius_km": 24 },
+
+  { "id": "uga-bugisu",        "name": "Bugisu",               "country_id": "uganda",         "lat": 1.10,   "lng": 34.34,   "radius_km": 38 },
+  { "id": "uga-rwenzori",      "name": "Rwenzori",             "country_id": "uganda",         "lat": 0.30,   "lng": 30.00,   "radius_km": 48 },
+
+  { "id": "yem-haraz",         "name": "Haraz",                "country_id": "yemen",          "lat": 15.30,  "lng": 43.90,   "radius_km": 38 },
+  { "id": "yem-ibb",           "name": "Ibb",                  "country_id": "yemen",          "lat": 13.97,  "lng": 44.18,   "radius_km": 36 },
+  { "id": "yem-dhamar",        "name": "Dhamar",               "country_id": "yemen",          "lat": 14.54,  "lng": 44.40,   "radius_km": 32 },
+
+  { "id": "cam-mount",         "name": "Mount Cameroon",       "country_id": "cameroon",       "lat": 4.20,   "lng": 9.17,    "radius_km": 38 },
+  { "id": "cam-highlands",     "name": "Western Highlands",    "country_id": "cameroon",       "lat": 5.45,   "lng": 10.17,   "radius_km": 48 },
+
+  { "id": "col-huila",         "name": "Huila",                "country_id": "colombia",       "lat": 2.00,   "lng": -75.80,  "radius_km": 75 },
+  { "id": "col-narino",        "name": "Nariño",               "country_id": "colombia",       "lat": 1.20,   "lng": -77.20,  "radius_km": 65 },
+  { "id": "col-antioquia",     "name": "Antioquia",            "country_id": "colombia",       "lat": 6.30,   "lng": -75.50,  "radius_km": 75 },
+  { "id": "col-cauca",         "name": "Cauca",                "country_id": "colombia",       "lat": 2.40,   "lng": -76.60,  "radius_km": 65 },
+  { "id": "col-cundinamarca",  "name": "Cundinamarca",         "country_id": "colombia",       "lat": 4.60,   "lng": -74.50,  "radius_km": 55 },
+  { "id": "col-santander",     "name": "Santander",            "country_id": "colombia",       "lat": 6.80,   "lng": -73.10,  "radius_km": 55 },
+
+  { "id": "bra-sul-de-minas",  "name": "Sul de Minas",         "country_id": "brazil",         "lat": -21.50, "lng": -45.50,  "radius_km": 130 },
+  { "id": "bra-cerrado",       "name": "Cerrado Mineiro",      "country_id": "brazil",         "lat": -19.50, "lng": -47.00,  "radius_km": 110 },
+  { "id": "bra-mogiana",       "name": "Mogiana",              "country_id": "brazil",         "lat": -20.50, "lng": -47.50,  "radius_km": 85 },
+  { "id": "bra-espirito-santo","name": "Espírito Santo",       "country_id": "brazil",         "lat": -20.30, "lng": -41.00,  "radius_km": 70 },
+  { "id": "bra-chapada",       "name": "Chapada Diamantina",   "country_id": "brazil",         "lat": -12.20, "lng": -41.50,  "radius_km": 70 },
+
+  { "id": "per-cajamarca",     "name": "Cajamarca",            "country_id": "peru",           "lat": -7.16,  "lng": -78.51,  "radius_km": 55 },
+  { "id": "per-san-martin",    "name": "San Martín",           "country_id": "peru",           "lat": -6.50,  "lng": -76.50,  "radius_km": 70 },
+  { "id": "per-junin",         "name": "Junín",                "country_id": "peru",           "lat": -11.50, "lng": -74.80,  "radius_km": 60 },
+  { "id": "per-ayacucho",      "name": "Ayacucho",             "country_id": "peru",           "lat": -13.16, "lng": -74.22,  "radius_km": 50 },
+  { "id": "per-amazonas",      "name": "Amazonas",             "country_id": "peru",           "lat": -5.90,  "lng": -77.90,  "radius_km": 55 },
+
+  { "id": "bol-yungas",        "name": "Yungas",               "country_id": "bolivia",        "lat": -16.50, "lng": -67.50,  "radius_km": 55 },
+  { "id": "bol-chapare",       "name": "Chapare",              "country_id": "bolivia",        "lat": -17.00, "lng": -65.50,  "radius_km": 45 },
+
+  { "id": "ecu-loja",          "name": "Loja",                 "country_id": "ecuador",        "lat": -4.00,  "lng": -79.50,  "radius_km": 48 },
+  { "id": "ecu-zamora",        "name": "Zamora Chinchipe",     "country_id": "ecuador",        "lat": -4.07,  "lng": -78.95,  "radius_km": 42 },
+
+  { "id": "gua-huehue",        "name": "Huehuetenango",        "country_id": "guatemala",      "lat": 15.50,  "lng": -91.50,  "radius_km": 48 },
+  { "id": "gua-antigua",       "name": "Antigua",              "country_id": "guatemala",      "lat": 14.55,  "lng": -90.73,  "radius_km": 36 },
+  { "id": "gua-coban",         "name": "Cobán",                "country_id": "guatemala",      "lat": 15.47,  "lng": -90.38,  "radius_km": 42 },
+  { "id": "gua-san-marcos",    "name": "San Marcos",           "country_id": "guatemala",      "lat": 14.96,  "lng": -91.80,  "radius_km": 36 },
+  { "id": "gua-atitlan",       "name": "Atitlán",              "country_id": "guatemala",      "lat": 14.72,  "lng": -91.20,  "radius_km": 30 },
+
+  { "id": "hon-copan",         "name": "Copán",                "country_id": "honduras",       "lat": 14.85,  "lng": -89.15,  "radius_km": 48 },
+  { "id": "hon-santa-barbara", "name": "Santa Bárbara",        "country_id": "honduras",       "lat": 14.92,  "lng": -88.22,  "radius_km": 42 },
+  { "id": "hon-comayagua",     "name": "Comayagua",            "country_id": "honduras",       "lat": 14.45,  "lng": -87.63,  "radius_km": 42 },
+  { "id": "hon-el-paraiso",    "name": "El Paraíso",           "country_id": "honduras",       "lat": 13.87,  "lng": -86.78,  "radius_km": 46 },
+
+  { "id": "cri-tarrazu",       "name": "Tarrazú",              "country_id": "costa-rica",     "lat": 9.60,   "lng": -83.90,  "radius_km": 32 },
+  { "id": "cri-central",       "name": "Central Valley",       "country_id": "costa-rica",     "lat": 9.95,   "lng": -84.10,  "radius_km": 36 },
+  { "id": "cri-brunca",        "name": "Brunca",               "country_id": "costa-rica",     "lat": 9.00,   "lng": -83.10,  "radius_km": 45 },
+
+  { "id": "pan-boquete",       "name": "Boquete",              "country_id": "panama",         "lat": 8.78,   "lng": -82.44,  "radius_km": 18 },
+  { "id": "pan-volcan",        "name": "Volcán",               "country_id": "panama",         "lat": 8.77,   "lng": -82.65,  "radius_km": 16 },
+
+  { "id": "els-apaneca",       "name": "Apaneca-Ilamatepec",   "country_id": "el-salvador",    "lat": 13.86,  "lng": -89.97,  "radius_km": 36 },
+  { "id": "els-santa-ana",     "name": "Santa Ana",            "country_id": "el-salvador",    "lat": 13.99,  "lng": -89.56,  "radius_km": 34 },
+
+  { "id": "nic-jinotega",      "name": "Jinotega",             "country_id": "nicaragua",      "lat": 13.10,  "lng": -86.00,  "radius_km": 48 },
+  { "id": "nic-matagalpa",     "name": "Matagalpa",            "country_id": "nicaragua",      "lat": 12.92,  "lng": -85.92,  "radius_km": 46 },
+
+  { "id": "mex-chiapas",       "name": "Chiapas",              "country_id": "mexico",         "lat": 16.50,  "lng": -92.50,  "radius_km": 110 },
+  { "id": "mex-oaxaca",        "name": "Oaxaca",               "country_id": "mexico",         "lat": 17.10,  "lng": -96.72,  "radius_km": 75 },
+  { "id": "mex-veracruz",      "name": "Veracruz",             "country_id": "mexico",         "lat": 19.50,  "lng": -97.00,  "radius_km": 55 },
+
+  { "id": "ind-coorg",         "name": "Coorg (Kodagu)",       "country_id": "india",          "lat": 12.43,  "lng": 75.74,   "radius_km": 36 },
+  { "id": "ind-chikmagalur",   "name": "Chikmagalur",          "country_id": "india",          "lat": 13.32,  "lng": 75.77,   "radius_km": 36 },
+  { "id": "ind-nilgiris",      "name": "Nilgiris",             "country_id": "india",          "lat": 11.40,  "lng": 76.77,   "radius_km": 32 },
+  { "id": "ind-wayanad",       "name": "Wayanad",              "country_id": "india",          "lat": 11.69,  "lng": 76.09,   "radius_km": 32 },
+  { "id": "ind-malabar",       "name": "Malabar Coast",        "country_id": "india",          "lat": 11.85,  "lng": 75.36,   "radius_km": 55 },
+
+  { "id": "viet-dak-lak",      "name": "Đắk Lắk",             "country_id": "vietnam",        "lat": 12.66,  "lng": 108.04,  "radius_km": 75 },
+  { "id": "viet-gia-lai",      "name": "Gia Lai",              "country_id": "vietnam",        "lat": 13.99,  "lng": 108.33,  "radius_km": 65 },
+  { "id": "viet-lam-dong",     "name": "Lâm Đồng (Da Lat)",   "country_id": "vietnam",        "lat": 11.94,  "lng": 108.44,  "radius_km": 55 },
+
+  { "id": "idn-aceh",          "name": "Aceh Gayo",            "country_id": "indonesia",      "lat": 4.69,   "lng": 96.77,   "radius_km": 75 },
+  { "id": "idn-toba",          "name": "Lake Toba",            "country_id": "indonesia",      "lat": 2.60,   "lng": 98.83,   "radius_km": 55 },
+  { "id": "idn-toraja",        "name": "Sulawesi Toraja",      "country_id": "indonesia",      "lat": -3.00,  "lng": 120.00,  "radius_km": 55 },
+  { "id": "idn-java",          "name": "Java",                 "country_id": "indonesia",      "lat": -7.50,  "lng": 112.00,  "radius_km": 70 },
+  { "id": "idn-flores",        "name": "Flores",               "country_id": "indonesia",      "lat": -8.66,  "lng": 121.08,  "radius_km": 45 },
+
+  { "id": "png-whighlands",    "name": "Western Highlands",    "country_id": "papua-new-guinea","lat": -5.85,  "lng": 144.23,  "radius_km": 45 },
+  { "id": "png-ehighlands",    "name": "Eastern Highlands",    "country_id": "papua-new-guinea","lat": -6.60,  "lng": 145.37,  "radius_km": 45 }
+]

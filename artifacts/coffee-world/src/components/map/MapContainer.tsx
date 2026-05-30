@@ -1,44 +1,17 @@
-import { useEffect, useMemo, useRef } from "react";
-import { MapContainer, TileLayer, Tooltip, Rectangle, CircleMarker, Marker, GeoJSON } from "react-leaflet";
+import { useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Tooltip, Rectangle, CircleMarker, Marker, Circle } from "react-leaflet";
 import { useMap } from "@/context/MapContext";
 import "@/lib/leaflet-icons";
 import L from "leaflet";
-import type { Feature, GeoJsonObject } from "geojson";
-import { Farm, Roaster, Country } from "@/lib/data";
+import { Farm, Roaster, Country, getRegions } from "@/lib/data";
 import { createRoasterIcon } from "@/lib/leaflet-icons";
-import { feature } from "topojson-client";
-import type { Topology } from "topojson-specification";
-// @ts-ignore — world-atlas has no bundled types
-import worldAtlas from "world-atlas/countries-110m.json";
 
 const MAP_CENTER: [number, number] = [10, 20];
 const MAP_ZOOM = 3;
 const COFFEE_BELT_BOUNDS: L.LatLngBoundsExpression = [[-23.5, -180], [23.5, 180]];
 
-// ISO 3166-1 numeric → our country id
-const ISO_TO_ID: Record<number, string> = {
-  231: "ethiopia", 404: "kenya",  834: "tanzania", 646: "rwanda",
-  108: "burundi",  800: "uganda", 120: "cameroon", 180: "congo",
-  887: "yemen",    320: "guatemala", 340: "honduras", 188: "costa-rica",
-  222: "el-salvador", 558: "nicaragua", 591: "panama", 484: "mexico",
-  170: "colombia", 76: "brazil",  604: "peru",    68: "bolivia",
-  218: "ecuador",  360: "indonesia", 704: "vietnam", 598: "papua-new-guinea",
-  356: "india",    104: "myanmar", 608: "philippines",
-};
+const ALL_REGIONS = getRegions();
 
-const COFFEE_ISO_SET = new Set(Object.keys(ISO_TO_ID).map(Number));
-
-// Precompute world GeoJSON once at module level
-const topology = worldAtlas as unknown as Topology<{ countries: { type: "GeometryCollection"; geometries: any[] } }>;
-const worldGeoJSON = feature(topology, topology.objects.countries) as unknown as { type: "FeatureCollection"; features: Feature[] };
-const allCountryFeatures = worldGeoJSON.features;
-
-const ARABICA_CULTIVARS = [
-  "Heirloom", "Bourbon", "Red Bourbon", "Yellow Bourbon", "Pink Bourbon",
-  "Typica", "Caturra", "Catuai", "Yellow Catuai", "SL28", "SL34", "SL14",
-  "Pacamara", "Gesha", "Geisha", "Mundo Novo", "Castillo", "Colombia",
-  "Kent", "74110", "74112", "Arabica",
-];
 const ROBUSTA_CULTIVARS = ["Robusta", "Canephora"];
 
 function getFarmSpecies(farm: Farm): "arabica" | "robusta" {
@@ -100,80 +73,52 @@ function RoasterTooltipContent({ roaster }: { roaster: Roaster }) {
   );
 }
 
-interface CountryLayerProps {
-  filteredCountries: Country[];
-  onCountryClick: (id: string) => void;
-}
+function GrowingRegionLayer({ filteredCountries, onCountryClick }: { filteredCountries: Country[]; onCountryClick: (id: string) => void }) {
+  const visibleCountryIds = new Set(filteredCountries.map(c => c.id));
+  const countryById: Record<string, Country> = {};
+  filteredCountries.forEach(c => { countryById[c.id] = c; });
 
-function CountryPolygonLayer({ filteredCountries, onCountryClick }: CountryLayerProps) {
-  const filteredIdSet = useMemo(() => new Set(filteredCountries.map(c => c.id)), [filteredCountries]);
-  const countryById = useMemo(() => {
-    const m: Record<string, Country> = {};
-    filteredCountries.forEach(c => { m[c.id] = c; });
-    return m;
-  }, [filteredCountries]);
-
-  // Only include features that are coffee countries AND pass the current filter
-  const coffeeFeatures = useMemo(() =>
-    allCountryFeatures.filter(f => {
-      const iso = Number(f.id);
-      const id = ISO_TO_ID[iso];
-      return id && filteredIdSet.has(id);
-    }),
-    [filteredIdSet]
-  );
-
-  const geoData = useMemo(() => ({
-    type: "FeatureCollection" as const,
-    features: coffeeFeatures,
-  }), [coffeeFeatures]);
-
-  const onEachFeature = (feature: Feature, layer: L.Layer) => {
-    const iso = Number(feature.id);
-    const id = ISO_TO_ID[iso];
-    const country = id ? countryById[id] : undefined;
-
-    if (!country) return;
-
-    const tooltipContent = `
-      <div style="width:190px;overflow:hidden;padding:8px">
-        <p style="font-weight:700;font-size:13px;color:#C8A96E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${country.flag} ${country.name}</p>
-        <p style="font-size:11px;color:#A89880;margin-top:3px">${(country.production_bags / 1000000).toFixed(1)}M bags/yr · ${country.altitude_range}</p>
-        <p style="font-size:11px;color:#F5F0E8;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${country.varieties.slice(0, 3).join(", ")}</p>
-        <p style="font-size:11px;color:#A89880;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${country.processes.join(", ")}</p>
-      </div>`;
-
-    layer.bindTooltip(tooltipContent, {
-      sticky: false,
-      direction: "top",
-      className: "leaflet-tooltip-dark",
-    });
-
-    layer.on({
-      mouseover(e: L.LeafletMouseEvent) {
-        (e.target as L.Path).setStyle({ fillOpacity: 0.45, weight: 1.5 });
-      },
-      mouseout(e: L.LeafletMouseEvent) {
-        (e.target as L.Path).setStyle({ fillOpacity: 0.25, weight: 0.5 });
-      },
-      click() {
-        if (id) onCountryClick(id);
-      },
-    });
-  };
+  const visibleRegions = ALL_REGIONS.filter(r => visibleCountryIds.has(r.country_id));
 
   return (
-    <GeoJSON
-      key={JSON.stringify(filteredIdSet)}
-      data={geoData as GeoJsonObject}
-      style={() => ({
-        color: "#C8A96E",
-        weight: 0.5,
-        fillColor: "#C8A96E",
-        fillOpacity: 0.25,
+    <>
+      {visibleRegions.map(region => {
+        const country = countryById[region.country_id];
+        return (
+          <Circle
+            key={region.id}
+            center={[region.lat, region.lng]}
+            radius={region.radius_km * 1000}
+            pathOptions={{
+              color: "#C8A96E",
+              weight: 0.8,
+              fillColor: "#C8A96E",
+              fillOpacity: 0.22,
+            }}
+            eventHandlers={{
+              click: () => onCountryClick(region.country_id),
+              mouseover: (e) => { e.target.setStyle({ fillOpacity: 0.42, weight: 1.5 }); },
+              mouseout: (e) => { e.target.setStyle({ fillOpacity: 0.22, weight: 0.8 }); },
+            }}
+          >
+            <Tooltip direction="top" className="bg-card border-border text-foreground rounded shadow-xl">
+              <div style={{ width: 190, overflow: "hidden" }} className="p-1.5">
+                <p className="font-bold text-sm text-primary truncate">{region.name}</p>
+                {country && (
+                  <>
+                    <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                      {country.flag} {country.name} · {country.altitude_range}
+                    </p>
+                    <p className="text-xs text-foreground mt-1 truncate">{country.varieties.slice(0, 3).join(", ")}</p>
+                    <p className="text-xs text-muted-foreground truncate">{country.processes.join(", ")}</p>
+                  </>
+                )}
+              </div>
+            </Tooltip>
+          </Circle>
+        );
       })}
-      onEachFeature={onEachFeature}
-    />
+    </>
   );
 }
 
@@ -208,18 +153,18 @@ export default function CoffeeMap() {
         {/* Coffee Belt */}
         <Rectangle
           bounds={COFFEE_BELT_BOUNDS}
-          pathOptions={{ color: "transparent", fillColor: "#00704A", fillOpacity: 0.12 }}
+          pathOptions={{ color: "transparent", fillColor: "#00704A", fillOpacity: 0.10 }}
         />
 
-        {/* Growing region country polygon fills */}
+        {/* Accurate growing zone circles per sub-region */}
         {filters.layers.growingRegions && (
-          <CountryPolygonLayer
+          <GrowingRegionLayer
             filteredCountries={filteredCountries}
             onCountryClick={(id) => setSelectedEntity({ type: "country", id })}
           />
         )}
 
-        {/* Farm dot density — orange = Arabica, blue = Robusta */}
+        {/* Farm dots — orange = Arabica, blue = Robusta */}
         {filters.layers.farms && filteredFarms.map(farm => {
           const species = getFarmSpecies(farm);
           const color = species === "arabica" ? "#E8855A" : "#5B9BD5";
