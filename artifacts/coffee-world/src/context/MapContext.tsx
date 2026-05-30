@@ -69,10 +69,29 @@ export function MapProvider({ children }: { children: React.ReactNode }) {
     return result;
   }, [countries, filters]);
 
+  // Arabica & Robusta are species — expand them to their cultivars for matching
+  const SPECIES_MAP: Record<string, string[]> = {
+    'Arabica': ['Heirloom', 'Bourbon', 'Red Bourbon', 'Yellow Bourbon', 'Pink Bourbon', 'Typica', 'Caturra', 'Catuai', 'Yellow Catuai', 'SL28', 'SL34', 'SL14', 'Pacamara', 'Gesha', 'Geisha', 'Mundo Novo', 'Castillo', 'Colombia', 'Kent', '74110', '74112'],
+    'Robusta': ['Robusta', 'Canephora'],
+    'Liberica': ['Liberica'],
+  };
+
   const filteredFarms = useMemo(() => {
     let result = farms;
     if (filters.varieties.length > 0) {
-      result = result.filter(f => f.varieties.some(v => filters.varieties.includes(v)));
+      result = result.filter(f =>
+        filters.varieties.some(selected => {
+          const expanded = SPECIES_MAP[selected];
+          if (expanded) {
+            return f.varieties.some(fv =>
+              expanded.some(e => fv.toLowerCase().includes(e.toLowerCase()) || e.toLowerCase().includes(fv.toLowerCase()))
+            );
+          }
+          return f.varieties.some(fv =>
+            fv.toLowerCase().includes(selected.toLowerCase()) || selected.toLowerCase().includes(fv.toLowerCase())
+          );
+        })
+      );
     }
     if (filters.processes.length > 0) {
       result = result.filter(f => f.processes.some(p => filters.processes.includes(p)));
