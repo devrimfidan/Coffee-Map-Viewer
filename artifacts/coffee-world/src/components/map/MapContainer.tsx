@@ -3,18 +3,19 @@ import { MapContainer, TileLayer, Tooltip, Rectangle, CircleMarker, Marker, GeoJ
 import { useMap } from "@/context/MapContext";
 import "@/lib/leaflet-icons";
 import L from "leaflet";
-import type { GeoJsonObject } from "geojson";
+import type { GeoJsonObject, Feature, Polygon } from "geojson";
 import { Farm, Roaster, Country, getRegions } from "@/lib/data";
 import { createRoasterIcon } from "@/lib/leaflet-icons";
-import { regionsToGeoJSON } from "@/lib/geoUtils";
+import { regionsToGeoJSON, circleToRing, type RegionProperties } from "@/lib/geoUtils";
+import { useCoffeeRegionsGeoJSON } from "@/hooks/useCoffeeRegionsGeoJSON";
 
 const MAP_CENTER: [number, number] = [10, 20];
 const MAP_ZOOM = 3;
 const COFFEE_BELT_BOUNDS: L.LatLngBoundsExpression = [[-23.5, -180], [23.5, 180]];
 
-// Pre-build the full GeoJSON collection once at module level (regions.json never changes at runtime)
-const ALL_REGIONS = getRegions();
-const ALL_REGIONS_GEOJSON = regionsToGeoJSON(ALL_REGIONS, 72);
+// Circle-approximation fallback — built once at module level
+const ALL_REGIONS      = getRegions();
+const CIRCLE_GEOJSON   = regionsToGeoJSON(ALL_REGIONS, 72);
 
 const ROBUSTA_CULTIVARS = ["Robusta", "Canephora"];
 
@@ -24,6 +25,8 @@ function getFarmSpecies(farm: Farm): "arabica" | "robusta" {
   }
   return "arabica";
 }
+
+// ─── Tooltips ────────────────────────────────────────────────────────────────
 
 function FarmTooltipContent({ farm }: { farm: Farm }) {
   const shortNotes = farm.tasting_notes
@@ -81,21 +84,7 @@ function RoasterTooltipContent({ roaster }: { roaster: Roaster }) {
   );
 }
 
-/** Builds a filtered GeoJSON FeatureCollection containing only regions whose
- *  country_id is in the current filteredCountries set. */
-function useRegionGeoJSON(filteredCountries: Country[]) {
-  const visibleIds = useMemo(
-    () => new Set(filteredCountries.map(c => c.id)),
-    [filteredCountries]
-  );
-
-  return useMemo(() => {
-    const features = ALL_REGIONS_GEOJSON.features.filter(
-      f => visibleIds.has(f.properties.country_id)
-    );
-    return { type: "FeatureCollection" as const, features };
-  }, [visibleIds]);
-}
+// ─── Region polygon layer ─────────────────────────────────────────────────────
 
 interface GrowingRegionLayerProps {
   filteredCountries: Country[];
@@ -103,23 +92,64 @@ interface GrowingRegionLayerProps {
 }
 
 function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegionLayerProps) {
-  const geoData = useRegionGeoJSON(filteredCountries);
+  // Real irregular polygons loaded from public/data/coffee_regions.geojson
+  const { data: realGeoJSON, loading } = useCoffeeRegionsGeoJSON();
 
-  // Build a lookup so onEachFeature can attach the country name to the tooltip
+  const visibleIds = useMemo(
+    () => new Set(filteredCountries.map(c => c.id)),
+    [filteredCountries]
+  );
+
   const countryById = useMemo(() => {
     const m: Record<string, Country> = {};
     filteredCountries.forEach(c => { m[c.id] = c; });
     return m;
   }, [filteredCountries]);
 
+  /**
+   * Build the final FeatureCollection:
+   *   • Prefer real irregular polygon from coffee_regions.geojson when available.
+   *   • Fall back to the Haversine circle approximation for any missing region.
+   *   • Always filter to only the currently-visible country set.
+   */
+  const mergedGeoJSON = useMemo(() => {
+    // Index real features by region id
+    const realById = new Map<string, GeoJSON.Feature>();
+    if (realGeoJSON) {
+      realGeoJSON.features.forEach(f => {
+        if (f.properties?.id) realById.set(f.properties.id as string, f);
+      });
+    }
+
+    const features: Feature<Polygon, RegionProperties>[] = ALL_REGIONS
+      .filter(r => visibleIds.has(r.country_id))
+      .map(r => {
+        const real = realById.get(r.id);
+        if (real && real.geometry.type === "Polygon") {
+          // Use the real irregular polygon, but guarantee our typed properties
+          return {
+            type: "Feature",
+            properties: { id: r.id, name: r.name, country_id: r.country_id, radius_km: r.radius_km },
+            geometry: real.geometry as GeoJSON.Polygon,
+          } as Feature<Polygon, RegionProperties>;
+        }
+        // Fallback: Haversine circle approximation
+        return {
+          type: "Feature",
+          properties: { id: r.id, name: r.name, country_id: r.country_id, radius_km: r.radius_km },
+          geometry: { type: "Polygon", coordinates: [circleToRing(r.lat, r.lng, r.radius_km, 72)] },
+        } as Feature<Polygon, RegionProperties>;
+      });
+
+    return { type: "FeatureCollection" as const, features };
+  }, [realGeoJSON, visibleIds]);
+
   const onEachFeature = (feature: GeoJSON.Feature, layer: L.Layer) => {
-    const { name, country_id, radius_km } = feature.properties as {
-      id: string; name: string; country_id: string; radius_km: number;
-    };
+    const { name, country_id, radius_km } = feature.properties as RegionProperties;
     const country = countryById[country_id];
 
     const html = `
-      <div style="width:190px;overflow:hidden;padding:8px">
+      <div style="width:200px;overflow:hidden;padding:8px">
         <p style="font-weight:700;font-size:13px;color:#C8A96E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
           ${name}
         </p>
@@ -135,11 +165,15 @@ function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegion
           </p>` : ""}
       </div>`;
 
-    layer.bindTooltip(html, { sticky: false, direction: "top", className: "leaflet-tooltip-dark" });
+    layer.bindTooltip(html, {
+      sticky: false,
+      direction: "top",
+      className: "leaflet-tooltip-dark",
+    });
 
     layer.on({
       mouseover(e: L.LeafletMouseEvent) {
-        (e.target as L.Path).setStyle({ fillOpacity: 0.42, weight: 1.2 });
+        (e.target as L.Path).setStyle({ fillOpacity: 0.42, weight: 1.5 });
       },
       mouseout(e: L.LeafletMouseEvent) {
         (e.target as L.Path).setStyle({ fillOpacity: 0.18, weight: 0.6 });
@@ -150,17 +184,15 @@ function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegion
     });
   };
 
-  // Re-key on the feature set so Leaflet tears-down and rebuilds the layer
-  // when the visible country set changes (GeoJSON has no incremental update API).
   const layerKey = useMemo(
-    () => geoData.features.map(f => f.properties.id).join(","),
-    [geoData]
+    () => `${loading ? "loading" : "ready"}:${mergedGeoJSON.features.map(f => f.properties.id).join(",")}`,
+    [loading, mergedGeoJSON]
   );
 
   return (
     <GeoJSON
       key={layerKey}
-      data={geoData as GeoJsonObject}
+      data={mergedGeoJSON as GeoJsonObject}
       style={() => ({
         color: "#C8A96E",
         weight: 0.6,
@@ -171,6 +203,8 @@ function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegion
     />
   );
 }
+
+// ─── Main map component ───────────────────────────────────────────────────────
 
 export default function CoffeeMap() {
   const { filters, filteredCountries, filteredFarms, filteredRoasters, selectedEntity, setSelectedEntity } = useMap();
@@ -205,7 +239,7 @@ export default function CoffeeMap() {
           pathOptions={{ color: "transparent", fillColor: "#00704A", fillOpacity: 0.10 }}
         />
 
-        {/* Growing region polygons — GeoJSON approximated from lat/lng/radius_km */}
+        {/* Growing region polygons — real GeoJSON where available, circle fallback otherwise */}
         {filters.layers.growingRegions && (
           <GrowingRegionLayer
             filteredCountries={filteredCountries}
@@ -252,7 +286,7 @@ export default function CoffeeMap() {
         ))}
       </MapContainer>
 
-      {/* Legend */}
+      {/* Farm legend */}
       {filters.layers.farms && (
         <div className="absolute bottom-6 right-4 z-[1000] bg-sidebar/90 border border-border rounded-lg px-3 py-2.5 text-xs space-y-1.5 shadow-xl backdrop-blur-sm">
           <p className="text-muted-foreground font-semibold uppercase tracking-wider text-[10px] mb-1">Farm Varieties</p>

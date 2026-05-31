@@ -11,7 +11,7 @@ function toDeg(rad: number) { return (rad * 180) / Math.PI; }
  * using spherical-Earth (Haversine) maths so the radius is accurate in km.
  * Returns coordinates in GeoJSON order: [longitude, latitude].
  */
-function circleToRing(lat: number, lng: number, radiusKm: number, numPoints = 72): [number, number][] {
+export function circleToRing(lat: number, lng: number, radiusKm: number, numPoints = 72): [number, number][] {
   const latR = toRad(lat);
   const lngR = toRad(lng);
   const d = radiusKm / EARTH_RADIUS_KM; // angular distance in radians
