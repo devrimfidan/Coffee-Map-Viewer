@@ -288,7 +288,7 @@ export default function CoffeeMap() {
 
       {/* Farm legend */}
       {filters.layers.farms && (
-        <div className="absolute bottom-6 right-4 z-[1000] bg-sidebar/90 border border-border rounded-lg px-3 py-2.5 text-xs space-y-1.5 shadow-xl backdrop-blur-sm">
+        <div className="absolute bottom-6 left-4 z-[1000] bg-sidebar/90 border border-border rounded-lg px-3 py-2.5 text-xs space-y-1.5 shadow-xl backdrop-blur-sm">
           <p className="text-muted-foreground font-semibold uppercase tracking-wider text-[10px] mb-1">Farm Varieties</p>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full inline-block shrink-0" style={{ background: "#E8855A", border: "1px solid #C8622A" }} />
