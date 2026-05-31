@@ -1,0 +1,66 @@
+I've enriched my JSON data files. Here's what changed — please update the app code to use the new fields:
+
+---
+
+## NEW FIELDS IN farms.json (each farm object)
+
+"region_id": "pan-boquete"           // links to regions.json and coffee_regions.geojson
+"sourced_roasters": ["onyx", "proud-mary"]  // array of roaster IDs that buy from this farm
+"harvest_season": ["November", "March"]     // array of [start_month, end_month]
+"harvest_months": "Nov–Mar"                 // human-readable harvest window
+"sustainability": ["Shade-Grown", "Rainforest Alliance"]  // certifications array
+
+Previously missing owner/awards fields are now populated.
+
+---
+
+## NEW FIELDS IN roasters.json (each roaster object)
+
+"roast_styles": ["Light", "Medium-Light"]   // roast level tags
+"sourced_farms": ["hacienda-la-esmeralda"]  // array of farm IDs they source from
+Previously missing notable_coffees arrays are now populated.
+Previously placeholder "#" websites are now real URLs.
+
+---
+
+## NEW FIELDS IN regions.json (each region object)
+
+"description": "..."                        // editorial paragraph about the region
+"typical_altitude_m": "1700–2200"           // altitude range string
+"dominant_varieties": ["SL28", "SL34"]      // key varieties grown here
+"dominant_processes": ["Washed"]            // primary processing methods
+"harvest_months": "October–December"        // harvest window
+"certifications": ["Fair Trade"]            // common certifications
+
+---
+
+## NEW FILE: varieties.json
+
+A brand new file with 13 coffee variety objects. Each has:
+- id, name, aliases, origin_country, origin_region
+- botanical_group, genetic_lineage
+- flavor_archetype: { acidity, body, sweetness, fruity, earthy, complexity }  (all 1–10)
+- flavor_notes: ["Jasmine", "Bergamot", ...]
+- cup_profile_summary: short text description
+- known_for: longer editorial text
+- famous_examples: ["Hacienda La Esmeralda (Panama)", ...]
+- best_countries: ["Panama", "Ethiopia"]
+- altitude_preference_m, yield_potential, disease_resistance
+- specialty_market: e.g. "Ultra-premium", "Mainstream Specialty"
+- first_cup_of_excellence
+
+---
+
+## WHAT TO UPDATE IN THE APP
+
+1. **Farm popups / sidebars** — show harvest_months, sustainability badges, and a "Sourced by" list using sourced_roasters IDs (look up roaster name from roasters.json)
+
+2. **Roaster popups / sidebars** — show roast_styles as tags, and a "Source Farms" list using sourced_farms IDs (look up farm name from farms.json)
+
+3. **Region popups / GeoJSON tooltips** — show description, typical_altitude_m, dominant_varieties, dominant_processes, harvest_months
+
+4. **Encyclopedia tab** — load varieties.json and display each variety as a card showing: name, origin, flavor_notes chips, flavor_archetype radar/bar chart, cup_profile_summary, best_countries, specialty_market tier
+
+5. **Filter/search** — you can now filter farms by sustainability certifications and harvest_season, and filter roasters by roast_styles
+
+6. **Cross-linking** — clicking a roaster on the map can highlight its sourced_farms on the map, and vice versa, using the region_id / sourced_roasters / sourced_farms arrays

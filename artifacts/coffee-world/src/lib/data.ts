@@ -14,6 +14,15 @@ export interface FlavorProfile {
   roasted: number;
 }
 
+export interface FlavorArchetype {
+  acidity: number;
+  body: number;
+  sweetness: number;
+  fruity: number;
+  earthy: number;
+  complexity: number;
+}
+
 export interface Country {
   id: string;
   name: string;
@@ -46,6 +55,12 @@ export interface Farm {
   flavor_profile: FlavorProfile;
   tasting_notes: string;
   awards: string;
+  // enriched fields
+  region_id?: string;
+  sourced_roasters?: string[];
+  harvest_season?: string[];
+  harvest_months?: string;
+  sustainability?: string[];
 }
 
 export interface Roaster {
@@ -61,16 +76,30 @@ export interface Roaster {
   signature_origins: string[];
   notable_coffees: string[];
   description: string;
+  // enriched fields
+  roast_styles?: string[];
+  sourced_farms?: string[];
 }
 
 export interface Variety {
   id: string;
   name: string;
-  origin: string;
-  characteristics: string;
-  flavor_profile: FlavorProfile;
-  description: string;
-  notable_origins: string[];
+  aliases: string[];
+  origin_country: string;
+  origin_region: string;
+  botanical_group: string;
+  genetic_lineage: string;
+  flavor_archetype: FlavorArchetype;
+  flavor_notes: string[];
+  known_for: string;
+  cup_profile_summary: string;
+  famous_examples: string[];
+  best_countries: string[];
+  altitude_preference_m: string;
+  yield_potential: string;
+  disease_resistance: string;
+  specialty_market: string;
+  first_cup_of_excellence: string;
 }
 
 export interface Process {
@@ -89,6 +118,13 @@ export interface Region {
   lat: number;
   lng: number;
   radius_km: number;
+  // enriched fields
+  description?: string;
+  typical_altitude_m?: string;
+  dominant_varieties?: string[];
+  dominant_processes?: string[];
+  harvest_months?: string;
+  certifications?: string[];
 }
 
 export const getCountries = (): Country[] => countriesData as Country[];
