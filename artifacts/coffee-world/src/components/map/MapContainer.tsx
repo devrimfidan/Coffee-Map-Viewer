@@ -125,18 +125,29 @@ function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegion
       .filter(r => visibleIds.has(r.country_id))
       .map(r => {
         const real = realById.get(r.id);
+        const enrichedProps: RegionProperties = {
+          id: r.id,
+          name: r.name,
+          country_id: r.country_id,
+          radius_km: r.radius_km,
+          // prefer enriched fields from the real GeoJSON, fall back to regions.json
+          description:         (real?.properties as RegionProperties | undefined)?.description         ?? r.description,
+          typical_altitude_m:  (real?.properties as RegionProperties | undefined)?.typical_altitude_m  ?? r.typical_altitude_m,
+          dominant_varieties:  (real?.properties as RegionProperties | undefined)?.dominant_varieties  ?? r.dominant_varieties,
+          dominant_processes:  (real?.properties as RegionProperties | undefined)?.dominant_processes  ?? r.dominant_processes,
+          harvest_months:      (real?.properties as RegionProperties | undefined)?.harvest_months      ?? r.harvest_months,
+          certifications:      (real?.properties as RegionProperties | undefined)?.certifications      ?? r.certifications,
+        };
         if (real && real.geometry.type === "Polygon") {
-          // Use the real irregular polygon, but guarantee our typed properties
           return {
             type: "Feature",
-            properties: { id: r.id, name: r.name, country_id: r.country_id, radius_km: r.radius_km },
+            properties: enrichedProps,
             geometry: real.geometry as GeoJSON.Polygon,
           } as Feature<Polygon, RegionProperties>;
         }
-        // Fallback: Haversine circle approximation
         return {
           type: "Feature",
-          properties: { id: r.id, name: r.name, country_id: r.country_id, radius_km: r.radius_km },
+          properties: enrichedProps,
           geometry: { type: "Polygon", coordinates: [circleToRing(r.lat, r.lng, r.radius_km, 72)] },
         } as Feature<Polygon, RegionProperties>;
       });
@@ -145,23 +156,42 @@ function GrowingRegionLayer({ filteredCountries, onCountryClick }: GrowingRegion
   }, [realGeoJSON, visibleIds]);
 
   const onEachFeature = (feature: GeoJSON.Feature, layer: L.Layer) => {
-    const { name, country_id, radius_km } = feature.properties as RegionProperties;
+    const props = feature.properties as RegionProperties;
+    const { name, country_id, description, typical_altitude_m, dominant_varieties, dominant_processes, harvest_months } = props;
     const country = countryById[country_id];
 
+    const descTrunc = description && description.length > 110
+      ? description.substring(0, 110) + "…"
+      : description ?? "";
+
     const html = `
-      <div style="width:200px;overflow:hidden;padding:8px">
-        <p style="font-weight:700;font-size:13px;color:#C8A96E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+      <div style="width:240px;overflow:hidden;padding:10px 10px 8px">
+        <p style="font-weight:700;font-size:13px;color:#C8A96E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px">
           ${name}
         </p>
         ${country ? `
-          <p style="font-size:11px;color:#A89880;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-            ${country.flag} ${country.name} · ~${radius_km} km
-          </p>
-          <p style="font-size:11px;color:#F5F0E8;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-            ${country.varieties.slice(0, 3).join(", ")}
-          </p>
-          <p style="font-size:11px;color:#A89880;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-            ${country.processes.join(", ")}
+          <p style="font-size:11px;color:#A89880;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px">
+            ${country.flag} ${country.name}
+          </p>` : ""}
+        ${descTrunc ? `
+          <p style="font-size:11px;color:#d1cec9;line-height:1.4;margin-bottom:6px">
+            ${descTrunc}
+          </p>` : ""}
+        ${typical_altitude_m ? `
+          <p style="font-size:10px;color:#A89880;margin-bottom:3px">
+            <span style="color:#C8A96E;font-weight:600">↑ Altitude</span> &nbsp;${typical_altitude_m} m
+          </p>` : ""}
+        ${harvest_months ? `
+          <p style="font-size:10px;color:#A89880;margin-bottom:3px">
+            <span style="color:#C8A96E;font-weight:600">⌛ Harvest</span> &nbsp;${harvest_months}
+          </p>` : ""}
+        ${(dominant_varieties ?? []).length > 0 ? `
+          <p style="font-size:10px;color:#A89880;margin-bottom:2px">
+            <span style="color:#C8A96E;font-weight:600">Varieties</span> &nbsp;${(dominant_varieties ?? []).slice(0, 4).join(", ")}
+          </p>` : ""}
+        ${(dominant_processes ?? []).length > 0 ? `
+          <p style="font-size:10px;color:#A89880">
+            <span style="color:#C8A96E;font-weight:600">Process</span> &nbsp;${(dominant_processes ?? []).join(", ")}
           </p>` : ""}
       </div>`;
 
